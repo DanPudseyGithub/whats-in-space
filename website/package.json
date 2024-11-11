@@ -20,7 +20,8 @@
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-globe.gl": "^2.27.4"
+    "react-globe.gl": "^2.27.4",
+    "sass": "^1.80.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.25.9",
