@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    NASA_API_KEY: process.env.NASA_API_KEY,
+    N2YO_API_KEY: process.env.N2YO_API_KEY,
+  },
   async rewrites() {
     return [
       {

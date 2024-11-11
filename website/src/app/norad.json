@@ -1,0 +1,27 @@
+{
+  "hubble_space_telescope": {
+    "name": "Hubble Space Telescope",
+    "id": 20580,
+    "description": "A space telescope that was launched into low Earth orbit in 1990 and remains in operation."
+  },
+  "international_space_station": {
+    "name": "International Space Station",
+    "id": 25544,
+    "description": "A space station, or a habitable artificial satellite, in low Earth orbit."
+  },
+  "terra": {
+    "name": "Terra",
+    "id": 25994,
+    "description": "A multi-national NASA scientific research satellite in a Sun-synchronous orbit around the Earth."
+  },
+  "aqua": {
+    "name": "Aqua",
+    "id": 27424,
+    "description": "A NASA scientific research satellite launched in 2002 to monitor the water cycle."
+  },
+  "landsat_8": {
+    "name": "Landsat 8",
+    "id": 39084,
+    "description": "An American Earth observation satellite launched in 2013 as part of the Landsat program."
+  }
+}

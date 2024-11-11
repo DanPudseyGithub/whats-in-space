@@ -14,11 +14,9 @@ const NEOS: React.FC = () => {
   useEffect(() => {
     const fetchNEOs = async () => {
       try {
-        // TODO: Make this an env variable
-        // const API_KEY = process.env.NASA_API_KEY;
-        const API_KEY = "Ym8l39Zplygqd9Gy36b3nc7uvY4wAGZzoS5GOtA9";
+        const NASA_API_KEY = process.env.NASA_API_KEY;
         const response = await fetch(
-          `https://api.nasa.gov/neo/rest/v1/feed?start_date=2023-09-07&end_date=2023-09-08&api_key=${API_KEY}`
+          `https://api.nasa.gov/neo/rest/v1/feed?start_date=2023-09-07&end_date=2023-09-08&api_key=${NASA_API_KEY}`
         );
 
         if (!response.ok) {

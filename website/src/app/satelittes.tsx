@@ -3,56 +3,88 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Globe from "react-globe.gl";
+import norad from "./norad.json";
 
-const ISS_API_URL =
-  "https://api.n2yo.com/rest/v1/satellite/positions/25544/41.702/-76.014/0/2/&apiKey=DYZSTK-S64CJF-PGXW4N-3YYP";
+const N2YO_API_KEY = process.env.N2YO_API_KEY;
 
-const ISS_API_URL_2 =
-  "https://api.n2yo.com/rest/v1/satellite/tle/25544&apiKey=DYZSTK-S64CJF-PGXW4N-3YYP";
+const SATELLITES = [
+  {
+    name: "ISS",
+    url: `/api/rest/v1/satellite/positions/${norad.international_space_station.id}/41.702/-76.014/0/2/&apiKey=${N2YO_API_KEY}`,
+  },
+  {
+    name: "Hubble Space Telescope",
+    url: `/api/rest/v1/satellite/positions/${norad.hubble_space_telescope.id}/41.702/-76.014/0/2/&apiKey=${N2YO_API_KEY}`,
+  },
+];
 
 export const Satellites: React.FC = () => {
-  const [issPosition, setIssPosition] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
+  const [satellitePositions, setSatellitePositions] = useState<
+    { name: string; lat: number; lng: number; alt: number }[]
+  >([]);
 
   useEffect(() => {
-    const fetchISSData = async () => {
+    const fetchPositions = async () => {
       try {
-        const response = await axios.get(ISS_API_URL_2);
-        console.log({ response });
-      } catch (error) {
-        console.error("Error fetching ISS data:", error);
-      }
-    };
-    const fetchISSPosition = async () => {
-      try {
-        const response = await axios.get(ISS_API_URL);
-        const { positions } = response.data;
-        console.log({ positions });
-        if (positions && positions.length > 0) {
-          const { satlatitude, satlongitude } = positions[0];
-          setIssPosition({ lat: satlatitude, lng: satlongitude });
-        }
-      } catch (error) {
-        console.error("Error fetching ISS position:", error);
-      }
-    };
-    fetchISSData();
-    fetchISSPosition();
-    //const interval = setInterval(fetchISSPosition, 50000); // Update every 5 seconds
+        const fetchSatellitePosition = async (url: string) => {
+          const response = await axios.get(url);
+          const positions = response.data.positions;
+          return positions && positions.length > 0 ? positions[0] : null;
+        };
 
-    // return () => clearInterval(interval);
+        const positions = await Promise.all(
+          SATELLITES.map(async (satellite) => {
+            const position = await fetchSatellitePosition(satellite.url);
+            if (position) {
+              const { satlatitude, satlongitude, sataltitude } = position;
+              return {
+                name: satellite.name,
+                lat: satlatitude,
+                lng: satlongitude,
+                alt: sataltitude,
+              };
+            }
+            return null;
+          })
+        );
+
+        setSatellitePositions(positions.filter((pos) => pos !== null) as any);
+      } catch (error) {
+        console.error("Error fetching satellite positions:", error);
+      }
+    };
+
+    fetchPositions();
+    const interval = setInterval(fetchPositions, 20000); // Update every 20 seconds
+
+    return () => clearInterval(interval);
   }, []);
+
+  const MAX_ALTITUDE_KM = 1000; // Define a reasonable maximum altitude for normalization
+
+  const pointAltitude = (point: any) => {
+    return point.alt / MAX_ALTITUDE_KM;
+  };
+
+  const pointName = (point: any) => {
+    return point.name;
+  };
+
+  const pointClickEvent = (point: any, event: string) => {
+    console.log("point clicked:", point, event);
+  };
 
   return (
     <div style={{ width: "100%", height: "100vh" }}>
-      {/* <Globe
+      <Globe
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
-        pointsData={issPosition ? [issPosition] : []}
-        pointAltitude={0.01}
-        pointColor={() => "red"}
-      /> */}
+        pointsData={satellitePositions}
+        pointAltitude={(point) => pointAltitude(point)}
+        pointColor={() => "white"}
+        pointLabel={(point) => pointName(point)}
+        atmosphereColor="red"
+        onPointClick={(point) => pointClickEvent(point, "event")}
+      />
     </div>
   );
 };
