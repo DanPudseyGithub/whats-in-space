@@ -6,19 +6,33 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "start:proxy": "babel-node proxy-server.js"
   },
   "dependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "axios": "^1.7.7",
+    "classnames": "^2.5.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "http-proxy-middleware": "^3.0.3",
+    "next": "^15.1.4",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.4"
+    "react-globe.gl": "^2.27.4",
+    "sass": "^1.80.6"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
+    "@babel/cli": "^7.25.9",
+    "@babel/node": "^7.26.0",
+    "@types/node": "^22.9.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.4"
+    "eslint-config-next": "14.2.4",
+    "eslint-import-resolver-typescript": "^3.7.0",
+    "typescript": "^5"
   }
 }
