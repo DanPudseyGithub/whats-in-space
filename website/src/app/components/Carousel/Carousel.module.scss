@@ -1,0 +1,23 @@
+@import "@variables/variables";
+
+.Carousel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1276px 1fr; /* Left, center (fixed), right */
+  width: 100vw; /* Full viewport width */
+  align-items: center;
+  gap: 2rem;
+}
+
+.PanelColumn1 {
+  width: auto;
+  background-color: darkgrey; /* Light gray for visualization */
+}
+
+.PanelColumn2 {
+  width: $component-max-width;
+}
+
+.PanelColumn3 {
+  background-color: darkgrey; /* Light gray for visualization */
+}

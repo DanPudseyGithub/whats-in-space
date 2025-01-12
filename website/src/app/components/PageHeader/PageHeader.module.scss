@@ -1,0 +1,14 @@
+@import "@variables/variables";
+
+.PageHeader {
+  max-width: $component-max-width;
+  margin-bottom: 4rem;
+}
+
+.Header {
+  padding-top: 2rem;
+}
+
+.Subheading {
+  font-size: 1.8rem;
+}

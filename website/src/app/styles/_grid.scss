@@ -1,0 +1,54 @@
+// Dynamic column span classes
+@for $i from 1 through 12 {
+  .col-span-#{$i} {
+    grid-column: span $i;
+  }
+}
+
+// Media queries for responsive layouts
+$breakpoints: (
+  "sm": 640px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+);
+
+@mixin breakpoint($size) {
+  @media (min-width: map-get($breakpoints, $size)) {
+    @content;
+  }
+}
+
+@include breakpoint("sm") {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@include breakpoint("md") {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@include breakpoint("lg") {
+  .grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+@include breakpoint("xl") {
+  .grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+.item-is-grid {
+  display: grid;
+}
+
+.item-grid-is-horizontal {
+  grid-template-columns: auto auto; /* Creates two horizontal columns */
+  grid-auto-rows: auto; /* Automatically determines row height */
+  gap: 10px; /* Optional: Adds spacing between the child elements */
+}
