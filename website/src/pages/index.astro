@@ -1,7 +1,10 @@
 ---
+import {Font} from 'astro:assets'
 import {sanityClient} from 'sanity:client'
 import {HOME_PAGE_QUERY} from '../lib/sanity/queries'
 import PageBuilder from '../components/PageBuilder.astro'
+import '../styles/reset.css'
+import '../styles/global.css'
 
 const page = await sanityClient.fetch(HOME_PAGE_QUERY)
 ---
@@ -14,6 +17,7 @@ const page = await sanityClient.fetch(HOME_PAGE_QUERY)
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{page?.title ?? "What's in Space"}</title>
+    <Font cssVariable="--font-work-sans" preload />
   </head>
   <body>
     {page ? (

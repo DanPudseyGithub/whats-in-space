@@ -1,5 +1,5 @@
 // @ts-check
-import {defineConfig} from 'astro/config'
+import {defineConfig, fontProviders} from 'astro/config'
 import {loadEnv} from 'vite'
 
 import sanity from '@sanity/astro'
@@ -18,5 +18,12 @@ export default defineConfig({
       dataset: PUBLIC_SANITY_DATASET,
       useCdn: false,
     }),
+  ],
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: 'Work Sans',
+      cssVariable: '--font-work-sans',
+    },
   ],
 })
