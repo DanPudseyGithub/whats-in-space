@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "website",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["--cwd", "website", "dev"],
+      "port": 4321
+    },
+    {
+      "name": "studio",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["--cwd", "studio", "dev"],
+      "port": 3333
+    }
+  ]
+}

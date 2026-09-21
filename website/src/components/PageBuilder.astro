@@ -1,0 +1,21 @@
+---
+import Hero from './Hero.astro'
+import RichText from './RichText.astro'
+
+interface Props {
+  blocks?: Array<{_key: string; _type: string; [key: string]: unknown}>
+}
+
+const {blocks = []} = Astro.props
+---
+
+{blocks.map((block) => {
+  switch (block._type) {
+    case 'hero':
+      return <Hero {...(block as any)} />
+    case 'richText':
+      return <RichText {...(block as any)} />
+    default:
+      return null
+  }
+})}

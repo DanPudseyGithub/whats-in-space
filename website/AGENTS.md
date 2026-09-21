@@ -1,22 +1,20 @@
-## Development
+# What's in Space — Project Context
 
-When starting the dev server, use background mode:
+## Stack
 
-```
-astro dev --background
-```
+Astro (static output, no adapter for now), Sanity, Figma MCP, Yarn, GitHub, GitKraken
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+## Architecture split
 
-## Documentation
+- Editorial content → Sanity schema (hero, richText, siteSettings, page)
+- Live data (NEOs, satellites, people in space) → NASA APIs via server islands, NEVER Sanity fields
 
-Full documentation: https://docs.astro.build
+## Canonical types
 
-Consult these guides before working on related tasks:
+[paste your canonical-types.md table here, or reference its file path]
 
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+## Conventions
+
+- Figma component naming: Content/X for Sanity-backed, Live/X for API-driven
+- Breakpoint variants: Desktop/Tablet/Mobile, one component per set (not separate components)
+- Package manager: Yarn only, not npm

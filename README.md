@@ -30,10 +30,33 @@ Publicly available on GitHub.
 
 ## Getting started
 
+This repo has two projects, each with its own dependencies:
+
 ```bash
+# Sanity Studio (content editing) — http://localhost:3333
+cd studio
 yarn install
 yarn dev
 ```
+
+```bash
+# Astro site (the front end) — http://localhost:4321
+cd website
+yarn install
+yarn dev
+```
+
+### Editor setup (VS Code)
+
+Opening this repo's root folder in VS Code will prompt you to install the
+recommended extensions (Astro language support + Prettier) — accept that
+prompt. If you miss it or it doesn't appear, install manually:
+
+- [Astro](https://marketplace.visualstudio.com/items?itemName=astro-build.astro-vscode) (`astro-build.astro-vscode`) — syntax highlighting, IntelliSense, and file icons for `.astro` files
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) (`esbenp.prettier-vscode`) — code formatting, including `.astro` files, on save
+
+Both are declared in `.vscode/extensions.json`; formatting config lives in
+`website/.prettierrc.json`.
 
 ## Status
 

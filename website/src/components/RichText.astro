@@ -1,0 +1,14 @@
+---
+import {PortableText} from 'astro-portabletext'
+import type {PortableTextProps} from 'astro-portabletext/types'
+
+interface Props {
+  content: PortableTextProps['value']
+}
+
+const {content} = Astro.props
+---
+
+<div class="rich-text">
+  <PortableText value={content} />
+</div>

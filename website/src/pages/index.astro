@@ -1,17 +1,56 @@
 ---
+import {sanityClient} from 'sanity:client'
+import {HOME_PAGE_QUERY} from '../lib/sanity/queries'
+import PageBuilder from '../components/PageBuilder.astro'
 
+const page = await sanityClient.fetch(HOME_PAGE_QUERY)
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{page?.title ?? "What's in Space"}</title>
+  </head>
+  <body>
+    {page ? (
+      <PageBuilder blocks={page.pageBuilder} />
+    ) : (
+      <div class="fallback">
+        <p>
+          No home page found yet — create a <code>page</code> document in Sanity Studio with slug{' '}
+          <code>home</code>.
+        </p>
+      </div>
+    )}
+  </body>
 </html>
+
+<style>
+  .fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background: #000;
+    color: #fff;
+    text-align: center;
+  }
+
+  .fallback p {
+    max-width: 32rem;
+    line-height: 32px;
+  }
+
+  .fallback code {
+    background: #262626;
+    color: #f5f5f5;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+import {urlFor} from '../lib/sanity/image'
+
+interface Props {
+  heading: string
+  subheading?: string
+  image?: {asset?: unknown; alt?: string}
+  cta?: {
+    label?: string
+    url?: string
+    style?: 'primary' | 'secondary'
+  }
+}
+
+const {heading, subheading, image, cta} = Astro.props
+
+const imageUrl = image?.asset
+  ? urlFor(image as never)
+      .width(1600)
+      .url()
+  : null
+---
+
+<section class="hero">
+  {imageUrl && <img class="hero__image" src={imageUrl} alt={image?.alt ?? ''} />}
+  <h1 class="hero__heading">{heading}</h1>
+  {subheading && <p class="hero__subheading">{subheading}</p>}
+  {cta?.label && cta?.url && (
+    <a class={`hero__cta hero__cta--${cta.style ?? 'primary'}`} href={cta.url}>
+      {cta.label}
+    </a>
+  )}
+</section>
