@@ -1,5 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {CogIcon} from '@sanity/icons/Cog'
+import {FooterColumnsInput} from './components/FooterColumnsInput'
 
 export const siteSettings = defineType({
   name: 'siteSettings',
@@ -71,6 +72,8 @@ export const siteSettings = defineType({
           name: 'columns',
           title: 'Columns',
           type: 'array',
+          validation: (rule) => rule.min(1).max(4).error('Add between 1 and 4 footer columns'),
+          components: {input: FooterColumnsInput},
           of: [
             defineArrayMember({
               type: 'object',

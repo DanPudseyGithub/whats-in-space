@@ -1,0 +1,203 @@
+---
+import {urlFor} from '../lib/sanity/image'
+
+interface NavLink {
+  _key: string
+  label: string
+  url: string
+}
+
+interface Props {
+  logo?: {asset?: unknown; alt?: string}
+  navLinks?: NavLink[]
+}
+
+const {logo, navLinks = []} = Astro.props
+
+const logoUrl = logo?.asset
+  ? urlFor(logo as never)
+      .width(160)
+      .url()
+  : null
+---
+
+<header class="site-header">
+  <div class="site-header__bar">
+    <a class="site-header__logo" href="/">
+      {logoUrl ? <img src={logoUrl} alt={logo?.alt ?? ''} /> : <span>What's in Space</span>}
+    </a>
+    {navLinks.length > 0 && (
+      <nav class="site-header__nav">
+        <ul>
+          {navLinks.map((link) => (
+            <li>
+              <a href={link.url}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+    <button
+      class="site-header__menu-trigger"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="site-header-overlay"
+    >
+      <img src="/icons/menu.svg" alt="" width="24" height="24" />
+    </button>
+  </div>
+
+  {navLinks.length > 0 && (
+    <div class="site-header__overlay" id="site-header-overlay" role="dialog" aria-modal="true">
+      <nav class="site-header__overlay-nav">
+        <ul>
+          {navLinks.map((link) => (
+            <li>
+              <a href={link.url}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  )}
+</header>
+
+<script>
+  const trigger = document.querySelector<HTMLButtonElement>('.site-header__menu-trigger')
+  const overlay = document.querySelector<HTMLElement>('.site-header__overlay')
+  const icon = trigger?.querySelector<HTMLImageElement>('img')
+
+  if (trigger && overlay && icon) {
+    trigger.addEventListener('click', () => {
+      const isOpen = overlay.classList.toggle('is-open')
+      trigger.setAttribute('aria-expanded', String(isOpen))
+      trigger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu')
+      icon.src = isOpen ? '/icons/menu-open.svg' : '/icons/menu.svg'
+      document.body.style.overflow = isOpen ? 'hidden' : ''
+    })
+  }
+</script>
+
+<style>
+  .site-header {
+    background: #000;
+    padding: 0.875rem;
+    position: relative;
+    z-index: 60;
+  }
+
+  .site-header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    max-width: 1440px;
+    margin-inline: auto;
+    position: relative;
+    z-index: 70;
+  }
+
+  .site-header__logo img {
+    display: block;
+    height: 2rem;
+    width: auto;
+  }
+
+  .site-header__logo span {
+    color: #fff;
+  }
+
+  .site-header__nav {
+    display: none;
+  }
+
+  .site-header__nav ul {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    padding: 0;
+    font-size: 0.75rem;
+  }
+
+  .site-header__nav a {
+    color: #fff;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .site-header__menu-trigger {
+    display: block;
+    background: none;
+    border: none;
+    /* padding + matching negative margin grows the tap target to 44x44 without moving the icon */
+    padding: 0.625rem;
+    margin: -0.625rem;
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  .site-header__menu-trigger:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .site-header__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 300ms ease,
+      visibility 0s linear 300ms;
+  }
+
+  .site-header__overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 300ms ease,
+      visibility 0s linear 0s;
+  }
+
+  .site-header__overlay-nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    font-size: 1.5rem;
+  }
+
+  .site-header__overlay-nav a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header__overlay {
+      transition: none;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .site-header__nav {
+      display: block;
+    }
+
+    .site-header__menu-trigger {
+      display: none;
+    }
+
+    .site-header__overlay {
+      display: none;
+    }
+  }
+</style>

@@ -1,12 +1,17 @@
 ---
 import {Font} from 'astro:assets'
 import {sanityClient} from 'sanity:client'
-import {HOME_PAGE_QUERY} from '../lib/sanity/queries'
+import {HOME_PAGE_QUERY, SITE_SETTINGS_QUERY} from '../lib/sanity/queries'
 import PageBuilder from '../components/PageBuilder.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
 import '../styles/reset.css'
 import '../styles/global.css'
 
-const page = await sanityClient.fetch(HOME_PAGE_QUERY)
+const [page, siteSettings] = await Promise.all([
+  sanityClient.fetch(HOME_PAGE_QUERY),
+  sanityClient.fetch(SITE_SETTINGS_QUERY),
+])
 ---
 
 <html lang="en">
@@ -20,16 +25,18 @@ const page = await sanityClient.fetch(HOME_PAGE_QUERY)
     <Font cssVariable="--font-work-sans" preload />
   </head>
   <body>
+    {siteSettings?.header && <Header {...siteSettings.header} />}
     {page ? (
       <PageBuilder blocks={page.pageBuilder} />
     ) : (
       <div class="fallback">
         <p>
           No home page found yet — create a <code>page</code> document in Sanity Studio with slug{' '}
-          <code>home</code>.
+          <code>/</code>.
         </p>
       </div>
     )}
+    {siteSettings?.footer && <Footer {...siteSettings.footer} />}
   </body>
 </html>
 
